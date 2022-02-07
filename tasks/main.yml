@@ -1,0 +1,34 @@
+---
+- name: running system_filesystem tasks
+  block:
+    - name: creating/resizing filesystem
+      filesystem:
+        dev: "{{ item['value']['dev'] }}"
+        force: "{{ item['value']['force'] | default(omit) }}"
+        fstype: "{{ item['value']['fstype'] }}"
+        opts: "{{ item['value']['opts'] | default(omit) }}"
+        resizefs: "{{ item['value']['resizefs'] | default(omit) }}"
+        state: present
+      loop: "{{ system_filesystem | dict2items }}"
+      loop_control:
+        label: "{{ item['value'] }}"
+      when:
+        - item['value']['dev'] is defined
+        - item['value']['fstype'] is defined
+        - item['value']['state'] is defined and
+          item['value']['state'] == "present" or
+          item['value']['state'] is undefined
+
+    - name: removing filesystem
+      filesystem:
+        dev: "{{ item['value']['dev'] }}"
+        state: absent
+      loop: "{{ system_filesystem | dict2items }}"
+      loop_control:
+        label: "{{ item['value'] }}"
+      when:
+        - item['value']['dev'] is defined
+        - item['value']['state'] is defined
+        - item['value']['state'] == "absent"
+  when:
+    system_filesystem is defined
