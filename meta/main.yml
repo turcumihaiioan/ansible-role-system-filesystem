@@ -1,4 +1,5 @@
 galaxy_info:
+  role_name: system_filesystem
   author: turcumihaiioan
   description: role for community.general.filesystem
 
