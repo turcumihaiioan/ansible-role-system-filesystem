@@ -2,7 +2,7 @@
 - name: running system_filesystem tasks
   block:
     - name: creating/resizing filesystem
-      filesystem:
+      community.general.filesystem:
         dev: "{{ item['value']['dev'] }}"
         force: "{{ item['value']['force'] | default(omit) }}"
         fstype: "{{ item['value']['fstype'] }}"
@@ -20,7 +20,7 @@
           item['value']['state'] is undefined
 
     - name: removing filesystem
-      filesystem:
+      community.general.filesystem:
         dev: "{{ item['value']['dev'] }}"
         state: absent
       loop: "{{ system_filesystem | dict2items }}"
