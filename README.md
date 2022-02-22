@@ -11,7 +11,7 @@ ansible >= 2.10
 Role Variables
 --------------
 
-```
+```yml
 system_filesystem:
   first_entry:
     dev: ...
@@ -38,7 +38,7 @@ Example Playbook
 ----------------
 
 #### Create a filesystem:
-```
+```yml
 - hosts: servers
   vars:
     system_filesystem:
@@ -50,7 +50,7 @@ Example Playbook
 ```
 
 #### Resize a filesystem:
-```
+```yml
 - hosts: servers
   vars:
     system_filesystem:
@@ -62,7 +62,7 @@ Example Playbook
 ```
 
 #### Remove a filesystem:
-```
+```yml
 - hosts: servers
   vars:
     system_filesystem:
