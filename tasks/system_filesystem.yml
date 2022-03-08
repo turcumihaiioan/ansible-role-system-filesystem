@@ -1,0 +1,24 @@
+---
+- name: "{{ system_filesystem_item['key'] }} : creating/resizing filesystem"
+  community.general.filesystem:
+    dev: "{{ system_filesystem_item['value']['dev'] }}"
+    force: "{{ system_filesystem_item['value']['force'] | default(omit) }}"
+    fstype: "{{ system_filesystem_item['value']['fstype'] }}"
+    opts: "{{ system_filesystem_item['value']['opts'] | default(omit) }}"
+    resizefs: "{{ system_filesystem_item['value']['resizefs'] | default(omit) }}"
+    state: present
+  when:
+    - system_filesystem_item['value']['dev'] is defined
+    - system_filesystem_item['value']['fstype'] is defined
+    - system_filesystem_item['value']['state'] is defined and
+      system_filesystem_item['value']['state'] == "present" or
+      system_filesystem_item['value']['state'] is undefined
+
+- name: "{{ system_filesystem_item['key'] }} : removing filesystem"
+  community.general.filesystem:
+    dev: "{{ system_filesystem_item['value']['dev'] }}"
+    state: absent
+  when:
+    - system_filesystem_item['value']['dev'] is defined
+    - system_filesystem_item['value']['state'] is defined
+    - system_filesystem_item['value']['state'] == "absent"
